@@ -72,7 +72,7 @@ public class EffectSineFlag extends Effect {
         g.setFont(theFont);
         for (int i = 0;  i < theText.length();  ++i) {
             final char c = theText.charAt(i);
-            if (!Character.isWhitespace(c)) {
+            if (c != ' ') {
                 final float sin = (float)(32 * Math.sin(timer + i / 5.25));
                 String txt = String.valueOf(c);
                 g.drawString(txt,

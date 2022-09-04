@@ -63,7 +63,7 @@ public class Launcher {
                 case KeyEvent.VK_ENTER: //with "alt" modifier
                 {
                     int mod = e.getModifiersEx();
-                    if (kc != KeyEvent.VK_ENTER  ||  (mod & KeyEvent.ALT_DOWN_MASK) != 0  ||  (mod & KeyEvent.ALT_MASK) != 0) {
+                    if (kc != KeyEvent.VK_ENTER  ||  (mod & KeyEvent.ALT_DOWN_MASK) != 0) {
                         dev.setFullScreenWindow(dev.getFullScreenWindow() == null  ?  jf  :  null);
                         jf.validate();
                     }
