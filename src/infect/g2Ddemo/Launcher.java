@@ -110,7 +110,7 @@ public class Launcher {
         canvas.createBufferStrategy(2); // double buffering
         final BufferStrategy strategy = canvas.getBufferStrategy();
 
-        final Effect effect = new EffectSineFlag(delayNs);
+        final Effect effect = new EffectSineFlag92(delayNs);
 
         Thread mainThread = new Thread() {
             private final Font theFont = new Font("Monospaced", Font.PLAIN, 16);

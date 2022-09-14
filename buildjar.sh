@@ -5,6 +5,7 @@ SRCDIR=src
 echo compile...
 mkdir -p $BINDIR
 javac -d $BINDIR -source 1.8 -target 1.8 -Xlint $SRCDIR/infect/g2Ddemo/*.java
+cp -rp $SRCDIR/resource $BINDIR
 
 echo build jar...
 rm -f $JARFILE

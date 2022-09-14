@@ -13,7 +13,7 @@ Recently Spiv/Infect created a remake of this effect in HTML + Javascript, which
 
 This inspired me to write my own version in Java, which looks like this:
 
-![Sine Flag screenshot](screenshots/SineFlag.png)
+![Sine Flag 92 screenshot](screenshots/SineFlag92.png)
 
 
 ### more to be added sometime ...
