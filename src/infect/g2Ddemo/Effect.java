@@ -1,9 +1,6 @@
 package infect.g2Ddemo;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-
-import javax.swing.ImageIcon;
 
 public abstract class Effect {
 
@@ -21,15 +18,6 @@ public abstract class Effect {
 
     public BufferedImage getBuffer() {
         return buf;
-    }
-
-    public BufferedImage loadImageFile(String fileName) {
-        ImageIcon icon = new ImageIcon(this.getClass().getClassLoader().getResource(fileName));
-        Image tmpImage = icon.getImage();
-        BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
-        image.getGraphics().drawImage(tmpImage, 0, 0, null);
-        tmpImage.flush();
-        return image;
     }
 
     public abstract String getName();

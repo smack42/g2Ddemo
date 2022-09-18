@@ -30,7 +30,7 @@ public class EffectSineFlag92 extends Effect {
         atMirror.scale(2.0, -0.5); // flip vertically and reduce height
         atMirror.translate(2.0, HEIGHT * -2.0);
         precalcValues = precalc();
-        imgFontAmigaTopaz8Glyphs = makeFont();
+        theFont = new BitmapFontAmiga500Topaz8(false, false, colText);
     }
 
     private final String theText = // must be 16 rows of 32 chars each
@@ -60,7 +60,7 @@ public class EffectSineFlag92 extends Effect {
     private final Color colMirrorText = new Color(0x66, 0x22, 0x66); // pink
     private final int precalcValuesPerFrame = 16 * 32 * 2; // rows * columns * 2
     private final short[] precalcValues;
-    private final BufferedImage[] imgFontAmigaTopaz8Glyphs;
+    private final BitmapFont theFont;
     private final AffineTransform atMain;
     private final AffineTransform atMirror;
     private final BufferedImage textBuf;
@@ -100,7 +100,7 @@ public class EffectSineFlag92 extends Effect {
                 pixelOffset += centerPixelOffset;
                 int x = (pixelOffset & (512 - 1));
                 int y = (pixelOffset / 512);
-                gText.drawImage(getGlyph(c), x, y, null);
+                theFont.drawString(gText, c, x, y);
             }
         }
         g.drawImage(textBuf, atMain, null);
@@ -188,40 +188,6 @@ public class EffectSineFlag92 extends Effect {
 //        }
         
         return vTwo;
-    }
-
-
-    private BufferedImage[] makeFont() {
-        // image contains 16 columns and 6 rows, each char is 8*8 pixels
-        BufferedImage imgFontAmigaTopaz8White = loadImageFile("resource/Font_Amiga500_Topaz8_white.png");
-        BufferedImage[] result = new BufferedImage[16 * 6];
-        for (int i = 0;  i < result.length;  ++i) {
-            Image img1 = imgFontAmigaTopaz8White.getSubimage(
-                    (i & (16 - 1)) * 8,
-                    (i / 16) * 8,
-                    8, 8 );
-            FilteredImageSource filterColor = new FilteredImageSource(img1.getSource(), new RGBImageFilter() {
-                @Override
-                public int filterRGB(int x, int y, int rgb) {
-                    return rgb == Color.WHITE.getRGB()  ?  colText.getRGB()  :  rgb;
-                }
-            });
-            Image img2 = Toolkit.getDefaultToolkit().createImage(filterColor);
-            BufferedImage bi = new BufferedImage(8, 8, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g = bi.createGraphics();
-            g.drawImage(img2, 0, 0, null);
-            g.dispose();
-            result[i] = bi;
-        }
-        return result;
-    }
-
-
-    private Image getGlyph(char c) {
-        int index = c - ' ';
-        index = Math.max(index, 0);
-        index = Math.min(index, imgFontAmigaTopaz8Glyphs.length - 1);
-        return imgFontAmigaTopaz8Glyphs[index];
     }
 
 

@@ -4,7 +4,6 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.DisplayMode;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -113,7 +112,7 @@ public class Launcher {
         final Effect effect = new EffectSineFlag92(delayNs);
 
         Thread mainThread = new Thread() {
-            private final Font theFont = new Font("Monospaced", Font.PLAIN, 16);
+            private final BitmapFont theFont = new BitmapFontAmiga500Topaz8(false, true, Color.WHITE);
             private int frame = 0, fps = 0, fpsPrevFrame = 0, delayLateFrames = 0;
             private long fpsPrevNano = System.nanoTime(), sleepMillis = 0, sleepNanos = 0;
             @Override
@@ -161,21 +160,21 @@ public class Launcher {
                             }
                             graphics.drawImage(effect.getBuffer(), x, y, width, height, null);
                             if (printInfo) {
-                                graphics.setColor(Color.WHITE);
-                                graphics.setFont(theFont);
-                                graphics.drawString("effect:         " + effect.getName(), 16, 0x10);
-                                graphics.drawString("frame:          " + frame, 16, 0x20);
-                                graphics.drawString("display fps:    " + displayHz + "   " + fps, 16, 0x30);
-                                graphics.drawString("delay timer:    " + doDelay + "   " + delayNs + "   " + sleepNanos + "   " + sleepMillis, 16, 0x40);
-                                graphics.drawString("aspect ratio:   " + keepAspectRatio + "   " + (float)Effect.ASPECT_RATIO + "   " + (float)canvasAspectRatio, 16, 0x50);
-                                graphics.drawString("screen pixels:  " + canvas.getWidth() + " x " + canvas.getHeight() + "   " + width + " x " + height, 16, 0x60);
-                                graphics.drawString("Q,Esc : quit", 16, 0x80);
-                                graphics.drawString("F,F11 : full screen / window", 16, 0x90);
-                                graphics.drawString("P,Space : pause / continue", 16, 0xa0);
-                                graphics.drawString("A : aspect ratio", 16, 0xb0);
-                                graphics.drawString("O : original size", 16, 0xc0);
-                                graphics.drawString("D : delay timer / Vsync", 16, 0xd0);
-                                graphics.drawString("I,F1 : this info", 16, 0xe0);
+                                int row = 0;
+                                theFont.drawString(graphics, "effect: " + effect.getName(), 16, row+=18);
+                                theFont.drawString(graphics, "frame:  " + frame, 16, row+=18);
+                                theFont.drawString(graphics, "fps:    " + displayHz + "  " + fps, 16, row+=18);
+                                theFont.drawString(graphics, "delay:  " + doDelay + "  " + delayNs + "  " + sleepNanos + "  " + sleepMillis, 16, row+=18);
+                                theFont.drawString(graphics, "aspect: " + keepAspectRatio + "  " + (float)Effect.ASPECT_RATIO + "  " + (float)canvasAspectRatio, 16, row+=18);
+                                theFont.drawString(graphics, "screen: " + canvas.getWidth() + "x" + canvas.getHeight() + "  " + width + "x" + height, 16, row+=18);
+                                row+=18;
+                                theFont.drawString(graphics, "Q,Esc = quit", 16, row+=18);
+                                theFont.drawString(graphics, "F,F11 = full screen / window", 16, row+=18);
+                                theFont.drawString(graphics, "P,Space = pause / continue", 16, row+=18);
+                                theFont.drawString(graphics, "A = aspect ratio", 16, row+=18);
+                                theFont.drawString(graphics, "O = original size", 16, row+=18);
+                                theFont.drawString(graphics, "D = delay timer / Vsync", 16, row+=18);
+                                theFont.drawString(graphics, "I,F1 = this info", 16, row+=18);
                             }
 
                             // Dispose the graphics
@@ -195,9 +194,9 @@ public class Launcher {
                         final long tsDiff = System.nanoTime() - tsBefore;
                         sleepNanos = delayNs - tsDiff;
                         sleepMillis = sleepNanos / 1_000_000;
-                        if (printInfo) {
-                            System.out.println("sleepMillis=" + sleepMillis + "   sleepNanos=" + sleepNanos + "   frame=" + frame);
-                        }
+//                        if (printInfo) {
+//                            System.out.println("sleepMillis=" + sleepMillis + "   sleepNanos=" + sleepNanos + "   frame=" + frame);
+//                        }
                         // try to recognise if page flipping is working correctly
                         // (that means that strategy.show() has already waited for next VSYNC)
                         if (sleepMillis >= 1) {
